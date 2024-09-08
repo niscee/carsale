@@ -1,0 +1,133 @@
+{% extends 'includes/base.html' %} {% load static %} {% block content %}
+
+<style>
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    /* Remove the border */
+    border-radius: 20px;
+    /* Add border radius */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    /* Optional: Add a subtle shadow */
+    font-size: 16px;
+    outline: 2px solid gray;
+    margin: 5px 0px;
+    /* Remove the outline on focus */
+  }
+
+  .search-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    /* Match the input's border radius */
+    background-color: #4caf50;
+    /* Button color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .search-button:hover {
+    background-color: #45a049;
+    /* Slightly darker color on hover */
+  }
+</style>
+
+<section class="slider_section long_section">
+  <img
+    src="{{company.slider.url }}"
+    alt="{{ latest_image.name }}"
+    style="width: 100%; height: auto; object-fit: cover"
+  />
+</section>
+
+<section class="furniture_section layout_padding">
+  <div class="container">
+    <div class="heading_container">
+      <h2 class="search-heading">Search Products</h2>
+    </div>
+    <form method="GET" action="{% url 'home' %}">
+      <input
+        type="text"
+        name="q"
+        placeholder="Search for products..."
+        value="{{ query|default_if_none:'' }}"
+        class="search-input"
+      />
+      <button type="submit" class="search-button">Search</button>
+    </form>
+  </div>
+  <div class="container">
+    <div class="row">
+      {% for product in products %}
+      <div class="col-md-6 col-lg-4">
+        <div class="box">
+          <div class="img-box">
+            <img src="{{ product.image.url }}" alt="" />
+          </div>
+          <div class="detail-box">
+            <h5>{{product.name}}</h5>
+            <div class="price_box">
+              <h6 class="price_heading"><span>$</span> {{product.price}}</h6>
+              <a href="{% url 'item_detail' id=product.id %}"> View </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="furniture_section layout_padding">
+  <div class="container">
+    <div class="heading_container">
+      <h2 class="search-heading">Listed Products</h2>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      {% for product in listed_products %}
+      <div class="col-md-6 col-lg-4">
+        <div class="box">
+          <div class="img-box">
+            <img src="{{ product.image.url }}" alt="" />
+          </div>
+          <div class="detail-box">
+            <h5>{{product.title}}</h5>
+            <div class="price_box">
+              <h6 class="price_heading"><span>$</span> {{product.price}}</h6>
+              <a href="{% url 'listed_item_detail' id=product.id %}"> View </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="blog_section layout_padding">
+  <div class="container">
+    <div class="heading_container">
+      <h2>Car Categories</h2>
+    </div>
+
+    <div class="row">
+      {% for category in categories %}
+      <div class="col-md-6 col-lg-4 mx-auto">
+        <div class="box">
+          <div class="detail-box">
+            <h5>{{category.name}}</h5>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

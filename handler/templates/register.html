@@ -1,0 +1,43 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="contact_section  long_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form_container">
+            <div class="heading_container">
+              <h2>
+                Register
+              </h2>
+            </div>
+
+            {% if messages %}
+              <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <form action="{% url 'register' %}" method="post">
+              {% csrf_token %}
+
+              {{ form.as_p }}
+              <div class="btn_box">
+                <button>
+                  SEND
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

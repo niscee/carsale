@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+  </head>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background-color: oldlace;
+    }
+
+    .base-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .grid-container {
+      width: 90%;
+      display: grid;
+      grid-template-columns: 30% 70%;
+      gap: 10px;
+      margin-top: 5%;
+      height: 500px;
+    }
+
+    .grid-item {
+      padding: 20px;
+      background-color: #f4f4f4;
+      text-align: center;
+      background-color: white;
+      color: wheat;
+      border: 2px solid wheat;
+      border-radius: 1.5%;
+    }
+
+    .sidebar-item {
+      border: 1px solid darkgrey;
+      padding: 10px;
+      margin: 30px 0px;
+      color: black;
+      letter-spacing: 2px;
+    }
+
+    .sidebar-item:hover {
+      border: 1.5px solid red;
+      color: black;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      letter-spacing: 1.2px;
+      color: black;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      display: inline;
+    }
+
+    .purchase-table {
+      height: 80%;
+      overflow: scroll;
+    }
+
+    .heading {
+      text-align: center;
+    }
+
+    #customers {
+      color: black;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #customers td,
+    #customers th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+      background-color: #ddd;
+    }
+
+    #customers th {
+      padding-top: 10px 0px;
+      text-align: left;
+      background-color: #04aa6d;
+      color: white;
+    }
+  </style>
+  <body>
+    <section class="base-container">
+      <div class="grid-container">
+        <div class="grid-item">
+          <a href="{% url 'home' %}"
+            ><div class="sidebar-item">View site</div></a
+          >
+          <a href="{% url 'dashboard' %}"
+            ><div class="sidebar-item">Home</div></a
+          >
+          <a href="{% url 'custom_purchase' %}"
+            ><div class="sidebar-item">Custom Product</div></a
+          >
+          <a href="{% url 'create_listing' %}"
+            ><div class="sidebar-item">Create listing</div></a
+          >
+          <a href="{% url 'logout' %}"
+            ><div class="sidebar-item">Logout</div></a
+          >
+        </div>
+        <div class="grid-item">
+          <h1>
+            Welcome, <span style="color: red">{{ user.username }}</span> to
+            Dashboard
+          </h1>
+          <div class="purchase-table">
+            <h2>Product purchase list</h2>
+            <table id="customers">
+              <tr>
+                <th class="heading">Purchase Number</th>
+                <th class="heading">Product</th>
+                <th class="heading">Price</th>
+                <th class="heading">Notes</th>
+              </tr>
+              {% for purchase in purchases %}
+              <tr>
+                <td>{{purchase.purchase_number}}</td>
+                <td>{{purchase.product.name}}</td>
+                <td>{{purchase.product.price}}</td>
+                <td>{{purchase.notes}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+
+            <h2>Your product</h2>
+            <table id="customers">
+              <tr>
+                <th class="heading">Title</th>
+                <th class="heading">Price</th>
+                <th class="heading">Condition</th>
+                <th class="heading">category</th>
+                <th class="heading">Operation</th>
+              </tr>
+              {% for purchase in listed_products %}
+              <tr>
+                <td>{{purchase.title}}</td>
+                <td>{{purchase.price}}</td>
+                <td>{{purchase.condition}}</td>
+                <td>{{purchase.category}}</td>
+                <td>
+                  <form
+                    method="post"
+                    action="{% url 'delete_listed_product' purchase.id %}"
+                    style="display: inline"
+                  >
+                    {% csrf_token %}
+                    <button
+                      style="
+                        padding: 4px;
+                        color: white;
+                        background-color: red;
+                        border: none;
+                      "
+                      onclick="return confirm('Are you sure you want to delete this product?');"
+                    >
+                      Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

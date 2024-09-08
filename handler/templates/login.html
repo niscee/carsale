@@ -1,0 +1,38 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="contact_section  long_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form_container">
+            <div class="heading_container">
+              <h2>
+                Login
+              </h2>
+            </div>
+
+            <form action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+
+              {{ form.as_p }}
+              <div class="btn_box">
+                <button>
+                  SEND
+                </button>
+              </div>
+            </form>
+            <div style="margin-top: 20px;">
+                <p class="register-prompt">
+                    Don't have an account? <a href="{% url 'register' %}">Register here</a>.
+                </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

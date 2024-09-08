@@ -1,0 +1,45 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<section class="about_section layout_padding long_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="{{ product.image.url }}" alt="product-image">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <p>
+              {{ product.title|upper }}
+            </p>
+            <p>
+              {{ product.description }}
+            </p>
+            <p style="color: green; letter-spacing: 1px; border: 2px solid wheat; padding: 5px;">
+                Condition: {{ product.condition }} / Available:
+                {% if product.availability %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </p>
+            {% if not user.is_authenticated %}
+                <p style="color: red">Please login to buy the item</p>
+            {% else %}
+                <a href="{% url 'listed_item_purchase' id=product.id %}">
+                  Buy
+                </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+{% endblock %}

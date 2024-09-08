@@ -1,0 +1,44 @@
+{% extends 'includes/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+</style>
+
+<section class="contact_section  long_section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form_container">
+          <div class="heading_container">
+            <h2>
+              Listed Item Purchase
+            </h2>
+          </div>
+
+          <form action="{% url 'listed_item_purchase' id=product.id %}" method="post">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+            <div class="btn_box">
+              <button>
+                BUY
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
